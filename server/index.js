@@ -12,14 +12,14 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use("/api/goals", require("./routes/goalsRoutes"));
+app.use("/api/account", require("./routes/accountRoute"));
 app.use("/api/users", require("./routes/userRoutes"));
 //serve frontend
 // if (process.env.NODE_ENV === "production") {
-app.use(express.static(path.join(__dirname, "../client/build")));
-app.get("*", (req, res) => {
-	res.sensFile(path.resolve(__dirname, "../", "client", "build", "index.html"));
-});
+// app.use(express.static(path.join(__dirname, "../client/build")));
+// app.get("*", (req, res) => {
+// 	res.sensFile(path.resolve(__dirname, "../", "client", "build", "index.html"));
+// });
 // } else {
 // 	app.get("/", (req, res) => res.send("please set NODE_ENV to production"));
 // }

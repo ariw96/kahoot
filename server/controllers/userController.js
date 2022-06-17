@@ -7,8 +7,10 @@ const User = require("../models/userModel");
 // access public
 const registerUser = asyncHandler(async (req, res) => {
 	const { name, email, password } = req.body;
-	if (!name || !email || !password) {
-		res.status(400).send("Please enter all fields");
+	if (!name || !password) {
+		res
+			.status(400)
+			.send({ email, password, name, message: "Please enter all fields" });
 	}
 	//hash password
 	const salt = await bcrypt.genSalt(10);
@@ -36,6 +38,7 @@ const registerUser = asyncHandler(async (req, res) => {
 		res.status(400);
 		throw new Error("User not created invalid data");
 	}
+	res.send("User created");
 });
 
 // des post user
@@ -53,7 +56,7 @@ const loginUser = asyncHandler(async (req, res) => {
 			token: generateToken(user.id),
 		});
 	} else {
-		setGoal, res.status(400);
+		res.status(400);
 		throw new Error("Invalid credentials");
 	}
 });

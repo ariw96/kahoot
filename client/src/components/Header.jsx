@@ -14,7 +14,7 @@ function Header() {
 	return (
 		<header className="header">
 			<div className="logo">
-				<NavLink to="/">GoalSetter</NavLink>
+				<NavLink to="/">Bank App</NavLink>
 			</div>
 			<ul>
 				{user ? (

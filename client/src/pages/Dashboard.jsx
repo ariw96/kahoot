@@ -32,7 +32,6 @@ function Dashboard() {
 		<>
 			<section className="heading">
 				<h1>Welcome {user && user.name}</h1>
-				<p>Goal Dashboard</p>
 			</section>
 			<GoalForm />
 			<section className="content">
@@ -43,7 +42,7 @@ function Dashboard() {
 						))}
 					</div>
 				) : (
-					<h3>You have not set any goals</h3>
+					<h3>You have not set any account</h3>
 				)}
 			</section>
 		</>

@@ -27,7 +27,7 @@ function GoalForm() {
 							onChange={(e) => setText(e.target.value)}
 						/>
 						<button type="submit" className="btn btn-block">
-							Add Goal
+							Create Account
 						</button>
 					</div>
 				</form>
