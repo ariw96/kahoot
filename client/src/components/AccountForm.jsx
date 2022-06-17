@@ -1,15 +1,15 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { createGoal } from "../features/goals/goalSlice";
+import { createAccount } from "../features/accounts/accountSlice";
 
-function GoalForm() {
+function AccountForm() {
 	const [text, setText] = useState("");
 
 	const dispatch = useDispatch();
 	const onSubmit = (e) => {
 		if (text.length > 0) {
 			e.preventDefault();
-			dispatch(createGoal({ text }));
+			dispatch(createAccount({ text }));
 			setText("");
 		}
 	};
@@ -18,7 +18,7 @@ function GoalForm() {
 			<section className="form">
 				<form onSubmit={onSubmit}>
 					<div className="form-group">
-						<label htmlFor="text">Goal</label>
+						<label htmlFor="text">account</label>
 						<input
 							type="text"
 							name="text"
@@ -36,4 +36,4 @@ function GoalForm() {
 	);
 }
 
-export default GoalForm;
+export default AccountForm;

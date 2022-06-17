@@ -52,19 +52,19 @@ const updateAccount = asyncHandler(async (req, res) => {
 		throw new Error("Not enough funds");
 	}
 	const cashUpdate =
-		parseInt(account.cash) +
+		parseInt(account.cash || 0) +
 		parseInt(req.body.deposit || 0) -
 		parseInt(req.body.withdraw || 0) -
 		parseInt(req.body.transfer || 0);
 	const creditUpdate = req.body.credit || account.credit;
-	const accountTransfer = await Account.findById(req.body.transferId);
-	const cashAfterTransfer =
-		parseInt(req.body.transfer) + parseInt(accountTransfer.cash);
-	const accountTransferUpdate = await Account.findByIdAndUpdate(
-		req.body.transferId,
-		{ cash: cashAfterTransfer },
-		{ new: true }
-	);
+	// const accountTransfer = await Account.findById(req.body.transferId || 0);
+	// const cashAfterTransfer =
+	// 	parseInt(req.body.transfer || 0) + parseInt(accountTransfer.cash || 0);
+	// const accountTransferUpdate = await Account.findByIdAndUpdate(
+	// 	req.body.transferId,
+	// 	{ cash: cashAfterTransfer },
+	// 	{ new: true }
+	// );
 
 	const updatedAccount = await Account.findByIdAndUpdate(
 		req.params.id,
@@ -79,14 +79,14 @@ const updateAccount = asyncHandler(async (req, res) => {
 // route DELETE /api/accounts/:id
 // access private
 const deleteAccount = asyncHandler(async (req, res) => {
-	const account = await account.findById(req.params.id);
+	const account = await Account.findById(req.params.id);
 	if (!account) {
 		res.status(404);
 		throw new Error("account not found");
 	}
 
 	//check for user
-	if (!req.user) {
+	if (!account.user) {
 		res.status(404);
 		throw new Error("User not found");
 	}

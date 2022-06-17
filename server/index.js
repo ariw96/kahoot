@@ -12,7 +12,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use("/api/account", require("./routes/accountRoute"));
+app.use("/api/accounts", require("./routes/accountRoute"));
 app.use("/api/users", require("./routes/userRoutes"));
 //serve frontend
 // if (process.env.NODE_ENV === "production") {

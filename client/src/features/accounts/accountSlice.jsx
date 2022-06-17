@@ -1,21 +1,21 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import goalService from "./goalService";
+import accountService from "./accountService";
 
 const initialState = {
-	goals: [],
+	accounts: [],
 	isError: false,
 	isLoading: false,
 	isSuccess: false,
 	message: "",
 };
 
-//create new goal
-export const createGoal = createAsyncThunk(
-	"goals/createGoal",
-	async (goalData, thunkAPI) => {
+//create new account
+export const createAccount = createAsyncThunk(
+	"accounts/createAccount",
+	async (accountData, thunkAPI) => {
 		try {
 			const token = thunkAPI.getState().auth.user.token;
-			return await goalService.createGoal(goalData, token);
+			return await accountService.createAccount(accountData, token);
 		} catch (error) {
 			const message =
 				(error.response &&
@@ -27,13 +27,13 @@ export const createGoal = createAsyncThunk(
 		}
 	}
 );
-//get user goals
-export const getGoals = createAsyncThunk(
-	"goals/getAll",
+//get user accounts
+export const getAccounts = createAsyncThunk(
+	"accounts/getAll",
 	async (_, thunkAPI) => {
 		try {
 			const token = thunkAPI.getState().auth.user.token;
-			return await goalService.getGoals(token);
+			return await accountService.getAccounts(token);
 		} catch (error) {
 			const message =
 				(error.response &&
@@ -45,13 +45,13 @@ export const getGoals = createAsyncThunk(
 		}
 	}
 );
-//delete goal
-export const deleteGoal = createAsyncThunk(
-	"goals/delete",
+//delete account
+export const deleteAccount = createAsyncThunk(
+	"accounts/delete",
 	async (id, thunkAPI) => {
 		try {
 			const token = thunkAPI.getState().auth.user.token;
-			return await goalService.deleteGoal(id, token);
+			return await accountService.deleteAccount(id, token);
 		} catch (error) {
 			const message =
 				(error.response &&
@@ -64,54 +64,54 @@ export const deleteGoal = createAsyncThunk(
 	}
 );
 
-export const goalSlice = createSlice({
-	name: "goal",
+export const accountSlice = createSlice({
+	name: "account",
 	initialState,
 	reducers: {
 		reset: (state) => initialState,
 	},
 	extraReducers: (builder) => {
 		builder
-			.addCase(createGoal.pending, (state) => {
+			.addCase(createAccount.pending, (state) => {
 				state.isLoading = true;
 			})
-			.addCase(createGoal.fulfilled, (state, action) => {
+			.addCase(createAccount.fulfilled, (state, action) => {
 				state.isLoading = false;
 				state.isSuccess = true;
-				state.goals.push(action.payload);
+				state.accounts.push(action.payload);
 			})
-			.addCase(createGoal.rejected, (state, action) => {
+			.addCase(createAccount.rejected, (state, action) => {
 				state.isLoading = false;
 				state.isError = true;
 				state.message = action.payload;
 			})
 
-			.addCase(getGoals.pending, (state) => {
+			.addCase(getAccounts.pending, (state) => {
 				state.isLoading = true;
+				console.log(state.accounts);
 			})
-			.addCase(getGoals.fulfilled, (state, action) => {
+			.addCase(getAccounts.fulfilled, (state, action) => {
 				state.isLoading = false;
 				state.isSuccess = true;
-				state.goals = action.payload;
-				console.log(action.payload);
+				state.accounts = action.payload;
 			})
-			.addCase(getGoals.rejected, (state, action) => {
+			.addCase(getAccounts.rejected, (state, action) => {
 				state.isLoading = false;
 				state.isError = true;
 			})
-			.addCase(deleteGoal.pending, (state) => {
+			.addCase(deleteAccount.pending, (state) => {
 				state.isLoading = true;
 			})
-			.addCase(deleteGoal.fulfilled, (state, action) => {
+			.addCase(deleteAccount.fulfilled, (state, action) => {
 				state.isLoading = false;
 				state.isSuccess = true;
-				state.goals = state.goals.filter((goal) => {
-					console.log(action.payload);
-					console.log(goal._id);
-					return goal._id !== action.payload.id;
+				state.accounts = state.accounts.filter((account) => {
+					console.log(state.accounts[0]);
+					// console.log(account);
+					return account._id !== action.payload.id;
 				});
 			})
-			.addCase(deleteGoal.rejected, (state, action) => {
+			.addCase(deleteAccount.rejected, (state, action) => {
 				state.isLoading = false;
 				state.isError = true;
 				state.message = action.payload;
@@ -119,5 +119,5 @@ export const goalSlice = createSlice({
 	},
 });
 
-export const { reset } = goalSlice.actions;
-export default goalSlice.reducer;
+export const { reset } = accountSlice.actions;
+export default accountSlice.reducer;

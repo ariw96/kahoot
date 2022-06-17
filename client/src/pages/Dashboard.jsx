@@ -1,17 +1,17 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import GoalForm from "../components/GoalForm";
+import AccountForm from "../components/AccountForm";
 import Spinner from "../components/Spinner";
-import { getGoals, reset } from "../features/goals/goalSlice";
-import GoalItem from "../components/GoalItem";
+import { getAccounts, reset } from "../features/accounts/accountSlice";
+import AccountItem from "../components/AccountItem";
 
 function Dashboard() {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const { user } = useSelector((state) => state.auth);
-	const { goals, isLoading, isError, message } = useSelector(
-		(state) => state.goals
+	const { accounts, isLoading, isError, message } = useSelector(
+		(state) => state.accounts
 	);
 	useEffect(() => {
 		if (isError) {
@@ -20,7 +20,7 @@ function Dashboard() {
 		if (!user) {
 			navigate("/login");
 		}
-		dispatch(getGoals());
+		dispatch(getAccounts());
 		return () => {
 			dispatch(reset());
 		};
@@ -33,12 +33,12 @@ function Dashboard() {
 			<section className="heading">
 				<h1>Welcome {user && user.name}</h1>
 			</section>
-			<GoalForm />
+			<AccountForm />
 			<section className="content">
-				{goals.length > 0 ? (
-					<div className="goals">
-						{goals.map((goal) => (
-							<GoalItem key={goal._id} goal={goal} />
+				{accounts.length > 0 ? (
+					<div className="accounts">
+						{accounts.map((account) => (
+							<AccountItem key={account._id} account={account} />
 						))}
 					</div>
 				) : (
