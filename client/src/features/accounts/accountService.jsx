@@ -34,9 +34,22 @@ const deleteAccount = async (accountId, token) => {
 
 	return response.data;
 };
+//deposit account
+const updateAccount = async (accountData,accountId, token) => {
+	const config = {
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+	};
+
+	const response = await axios.put(API_URL + accountId, config);
+
+	return response.data;
+};
 const accountService = {
 	createAccount,
 	getAccounts,
 	deleteAccount,
+	depositAccount,
 };
 export default accountService;

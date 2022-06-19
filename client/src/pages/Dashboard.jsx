@@ -31,7 +31,7 @@ function Dashboard() {
 	return (
 		<>
 			<section className="heading">
-				<h1>Welcome {user && user.name}</h1>
+				<h3>Welcome {user && user.name}</h3>
 			</section>
 			<AccountForm />
 			<section className="content">

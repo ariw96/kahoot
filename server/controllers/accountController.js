@@ -51,12 +51,7 @@ const updateAccount = asyncHandler(async (req, res) => {
 		res.status(400);
 		throw new Error("Not enough funds");
 	}
-	const cashUpdate =
-		parseInt(account.cash || 0) +
-		parseInt(req.body.deposit || 0) -
-		parseInt(req.body.withdraw || 0) -
-		parseInt(req.body.transfer || 0);
-	const creditUpdate = req.body.credit || account.credit;
+
 	// const accountTransfer = await Account.findById(req.body.transferId || 0);
 	// const cashAfterTransfer =
 	// 	parseInt(req.body.transfer || 0) + parseInt(accountTransfer.cash || 0);
@@ -65,10 +60,16 @@ const updateAccount = asyncHandler(async (req, res) => {
 	// 	{ cash: cashAfterTransfer },
 	// 	{ new: true }
 	// );
+	const deposit = parseInt(req.body.deposit) || 0;
+	const withdraw = parseInt(req.body.withdraw) || 0;
+	const updateCredit = parseInt(req.body.credit) || 0;
 
 	const updatedAccount = await Account.findByIdAndUpdate(
 		req.params.id,
-		{ cash: cashUpdate, credit: creditUpdate, text: req.body.text },
+		{
+			cash: account.cash + deposit - withdraw,
+			credit: updateCredit,
+		},
 		{
 			new: true,
 		}

@@ -63,6 +63,24 @@ export const deleteAccount = createAsyncThunk(
 		}
 	}
 );
+//update account
+export const updateAccount = createAsyncThunk(
+	"accounts/update",
+	async (accountData, thunkAPI) => {
+		try {
+			const token = thunkAPI.getState().auth.user.token;
+			return await accountService.depositAccount(accountData, token);
+		} catch (error) {
+			const message =
+				(error.response &&
+					error.response.data &&
+					error.response.data.message) ||
+				error.message ||
+				error.toString();
+			return thunkAPI.rejectWithValue(message);
+		}
+	}
+);
 
 export const accountSlice = createSlice({
 	name: "account",
@@ -106,8 +124,6 @@ export const accountSlice = createSlice({
 				state.isLoading = false;
 				state.isSuccess = true;
 				state.accounts = state.accounts.filter((account) => {
-					console.log(state.accounts[0]);
-					// console.log(account);
 					return account._id !== action.payload.id;
 				});
 			})
