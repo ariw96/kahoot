@@ -1,21 +1,21 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import accountService from "./accountService";
+import quizService from "./quizService";
 
 const initialState = {
-	accounts: [],
+	quizzes: [],
 	isError: false,
 	isLoading: false,
 	isSuccess: false,
 	message: "",
 };
 
-//create new account
-export const createAccount = createAsyncThunk(
-	"accounts/createAccount",
-	async (accountData, thunkAPI) => {
+//create new quiz
+export const createQuiz = createAsyncThunk(
+	"quizzes/createQuiz",
+	async (quizData, thunkAPI) => {
 		try {
 			const token = thunkAPI.getState().auth.user.token;
-			return await accountService.createAccount(accountData, token);
+			return await quizService.createQuiz(quizData, token);
 		} catch (error) {
 			const message =
 				(error.response &&
@@ -28,12 +28,12 @@ export const createAccount = createAsyncThunk(
 	}
 );
 //get user accounts
-export const getAccounts = createAsyncThunk(
-	"accounts/getAll",
+export const getQuizzes = createAsyncThunk(
+	"quizzes/getAll",
 	async (_, thunkAPI) => {
 		try {
 			const token = thunkAPI.getState().auth.user.token;
-			return await accountService.getAccounts(token);
+			return await quizService.getQuizzes(token);
 		} catch (error) {
 			const message =
 				(error.response &&
@@ -46,12 +46,13 @@ export const getAccounts = createAsyncThunk(
 	}
 );
 //delete account
-export const deleteAccount = createAsyncThunk(
-	"accounts/delete",
+export const deleteQuiz = createAsyncThunk(
+	"quizzes/delete",
 	async (id, thunkAPI) => {
 		try {
 			const token = thunkAPI.getState().auth.user.token;
-			return await accountService.deleteAccount(id, token);
+			console.log(id);
+			return await quizService.deleteQuiz(id, token);
 		} catch (error) {
 			const message =
 				(error.response &&
@@ -64,12 +65,12 @@ export const deleteAccount = createAsyncThunk(
 	}
 );
 //update account
-export const updateAccount = createAsyncThunk(
-	"accounts/update",
-	async (accountData, thunkAPI) => {
+export const updateQuiz = createAsyncThunk(
+	"quizzes/update",
+	async (quizData, thunkAPI) => {
 		try {
 			const token = thunkAPI.getState().auth.user.token;
-			return await accountService.depositAccount(accountData, token);
+			// return await accountService.depositAccount(quizData, token);
 		} catch (error) {
 			const message =
 				(error.response &&
@@ -82,52 +83,52 @@ export const updateAccount = createAsyncThunk(
 	}
 );
 
-export const accountSlice = createSlice({
-	name: "account",
+export const quizSlice = createSlice({
+	name: "quiz",
 	initialState,
 	reducers: {
 		reset: (state) => initialState,
 	},
 	extraReducers: (builder) => {
 		builder
-			.addCase(createAccount.pending, (state) => {
+			.addCase(createQuiz.pending, (state) => {
 				state.isLoading = true;
 			})
-			.addCase(createAccount.fulfilled, (state, action) => {
+			.addCase(createQuiz.fulfilled, (state, action) => {
 				state.isLoading = false;
 				state.isSuccess = true;
-				state.accounts.push(action.payload);
+				state.quizzes.push(action.payload);
 			})
-			.addCase(createAccount.rejected, (state, action) => {
+			.addCase(createQuiz.rejected, (state, action) => {
 				state.isLoading = false;
 				state.isError = true;
 				state.message = action.payload;
 			})
 
-			.addCase(getAccounts.pending, (state) => {
+			.addCase(getQuizzes.pending, (state) => {
 				state.isLoading = true;
 				console.log(state.accounts);
 			})
-			.addCase(getAccounts.fulfilled, (state, action) => {
+			.addCase(getQuizzes.fulfilled, (state, action) => {
 				state.isLoading = false;
 				state.isSuccess = true;
-				state.accounts = action.payload;
+				state.quizzes = action.payload;
 			})
-			.addCase(getAccounts.rejected, (state, action) => {
+			.addCase(getQuizzes.rejected, (state, action) => {
 				state.isLoading = false;
 				state.isError = true;
 			})
-			.addCase(deleteAccount.pending, (state) => {
+			.addCase(deleteQuiz.pending, (state) => {
 				state.isLoading = true;
 			})
-			.addCase(deleteAccount.fulfilled, (state, action) => {
+			.addCase(deleteQuiz.fulfilled, (state, action) => {
 				state.isLoading = false;
 				state.isSuccess = true;
-				state.accounts = state.accounts.filter((account) => {
-					return account._id !== action.payload.id;
+				state.quizzes = state.quizzes.filter((quiz) => {
+					return quiz._id !== action.payload.id;
 				});
 			})
-			.addCase(deleteAccount.rejected, (state, action) => {
+			.addCase(deleteQuiz.rejected, (state, action) => {
 				state.isLoading = false;
 				state.isError = true;
 				state.message = action.payload;
@@ -135,5 +136,5 @@ export const accountSlice = createSlice({
 	},
 });
 
-export const { reset } = accountSlice.actions;
-export default accountSlice.reducer;
+export const { reset } = quizSlice.actions;
+export default quizSlice.reducer;

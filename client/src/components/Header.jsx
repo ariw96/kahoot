@@ -2,6 +2,7 @@ import { FaSignInAlt, FaSignOutAlt, FaUser } from "react-icons/fa";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout, reset } from "../features/auth/authSlice";
+import logo from "../assets/Kahoot.jpg";
 function Header() {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
@@ -14,7 +15,10 @@ function Header() {
 	return (
 		<header className="header">
 			<div className="logo">
-				<NavLink to="/">Bank App</NavLink>
+				<NavLink to="/">
+					{" "}
+					<img src={logo} />
+				</NavLink>
 			</div>
 			<ul>
 				{user ? (

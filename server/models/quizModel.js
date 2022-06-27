@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const accountSchema = mongoose.Schema(
+const quizSchema = mongoose.Schema(
 	{
 		user: {
 			type: mongoose.Schema.Types.ObjectId,
@@ -23,4 +23,4 @@ const accountSchema = mongoose.Schema(
 		timestamps: true,
 	}
 );
-module.exports = mongoose.model("Account", accountSchema);
+module.exports = mongoose.model("Quiz", quizSchema);

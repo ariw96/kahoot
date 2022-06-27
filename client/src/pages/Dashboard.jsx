@@ -1,17 +1,17 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import AccountForm from "../components/AccountForm";
-import Spinner from "../components/Spinner";
-import { getAccounts, reset } from "../features/accounts/accountSlice";
-import AccountItem from "../components/AccountItem";
+import QuizForm from "../components/QuizForm";
+import Spinner from "../utils/Spinner";
+import { getQuizzes, reset } from "../features/quizzes/quizSlice";
+import QuizItem from "../components/QuizItem";
 
 function Dashboard() {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const { user } = useSelector((state) => state.auth);
-	const { accounts, isLoading, isError, message } = useSelector(
-		(state) => state.accounts
+	const { quizzes, isLoading, isError, message } = useSelector(
+		(state) => state.quizzes
 	);
 	useEffect(() => {
 		if (isError) {
@@ -20,7 +20,7 @@ function Dashboard() {
 		if (!user) {
 			navigate("/login");
 		}
-		dispatch(getAccounts());
+		dispatch(getQuizzes());
 		return () => {
 			dispatch(reset());
 		};
@@ -33,12 +33,12 @@ function Dashboard() {
 			<section className="heading">
 				<h3>Welcome {user && user.name}</h3>
 			</section>
-			<AccountForm />
+			<QuizForm />
 			<section className="content">
-				{accounts.length > 0 ? (
+				{quizzes.length > 0 ? (
 					<div className="accounts">
-						{accounts.map((account) => (
-							<AccountItem key={account._id} account={account} />
+						{quizzes.map((quiz) => (
+							<QuizItem key={quiz._id} quiz={quiz} />
 						))}
 					</div>
 				) : (
