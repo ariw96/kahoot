@@ -30,15 +30,12 @@ function Dashboard() {
 	}
 	return (
 		<>
-			<section className="heading">
-				<h3>Welcome {user && user.name}</h3>
-			</section>
 			<QuizForm />
 			<section className="content">
 				{quizzes.length > 0 ? (
 					<div className="accounts">
 						{quizzes.map((quiz) => (
-							<QuizItem key={quiz._id} quiz={quiz} />
+							<QuizItem key={quiz._id} quizData={quiz} />
 						))}
 					</div>
 				) : (

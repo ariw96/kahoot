@@ -8,8 +8,9 @@ export const createQuiz = async (quizData, token) => {
 			Authorization: `Bearer ${token}`,
 		},
 	};
+
 	const response = await axios.post(API_URL, quizData, config);
-	// return response.data;
+	return response.data;
 };
 
 //get user quizzes

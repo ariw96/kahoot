@@ -20,6 +20,9 @@ function Header() {
 					<img src={logo} />
 				</NavLink>
 			</div>
+
+			<h1>Welcome {user && user.name}</h1>
+
 			<ul>
 				{user ? (
 					<li>

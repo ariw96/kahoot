@@ -12,14 +12,16 @@ const getQuiz = asyncHandler(async (req, res) => {
 // route POST /api/Quizzes
 // access private
 const setQuiz = asyncHandler(async (req, res) => {
-	if (!req.body.text) {
+	const { quizName, question, answerList } = req.body.quizData;
+	if (!quizName || !question) {
 		throw new Error("Please provide a text");
 	}
+
 	const quiz = await Quiz.create({
-		text: req.body.text,
-		user: req.user.id,
-		cash: 0,
-		credit: 0,
+		quizName: quizName,
+		user: req.user._id,
+		question: question,
+		answerList: answerList,
 	});
 	res.status(200).json(quiz);
 });
@@ -59,7 +61,7 @@ const deleteQuiz = asyncHandler(async (req, res) => {
 	}
 
 	//check for user
-	if (!account.user) {
+	if (!quiz.user) {
 		res.status(404);
 		throw new Error("User not found");
 	}

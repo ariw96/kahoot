@@ -3,15 +3,22 @@ import { useDispatch } from "react-redux";
 import { createQuiz } from "../features/quizzes/quizSlice";
 
 function QuizForm() {
-	const [text, setText] = useState("");
+	const [quizData, setQuizData] = useState({
+		quizName: "",
+		question: "",
+		answerList: [
+			{ name: "a", answer: "", isCorrect: false },
+			{ name: "b", answer: "", isCorrect: false },
+			{ name: "c", answer: "", isCorrect: false },
+			{ name: "d", answer: "", isCorrect: false },
+		],
+	});
 
 	const dispatch = useDispatch();
+
 	const onSubmit = (e) => {
-		if (text.length > 0) {
-			e.preventDefault();
-			dispatch(createQuiz({ text }));
-			setText("");
-		}
+		e.preventDefault();
+		dispatch(createQuiz({ quizData }));
 	};
 	return (
 		<>
@@ -23,12 +30,36 @@ function QuizForm() {
 							type="text"
 							name="text"
 							id="text"
-							value={text}
-							onChange={(e) => setText(e.target.value)}
+							value={quizData.quizName}
+							onChange={(e) =>
+								setQuizData({ ...quizData, quizName: e.target.value })
+							}
 						/>
-						<button type="submit" className="btn btn-block">
-							Create Quiz
-						</button>
+						<label htmlFor="text">Enter Quiz question</label>
+						<input
+							type="text"
+							name="text"
+							id="text"
+							value={quizData.question}
+							onChange={(e) =>
+								setQuizData({ ...quizData, question: e.target.value })
+							}
+						/>
+						<label htmlFor="text">Enter Quiz question</label>
+						<input
+							type="text"
+							name="text"
+							id="text"
+							value={quizData.question}
+							onChange={(e) =>
+								setQuizData({ ...quizData, question: e.target.value })
+							}
+						/>
+						<div className="form-group">
+							<button type="submit" className="btn btn-block">
+								Create Quiz
+							</button>
+						</div>
 					</div>
 				</form>
 			</section>

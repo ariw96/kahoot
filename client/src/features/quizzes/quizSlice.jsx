@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, current } from "@reduxjs/toolkit";
 import quizService from "./quizService";
 
 const initialState = {
@@ -11,10 +11,11 @@ const initialState = {
 
 //create new quiz
 export const createQuiz = createAsyncThunk(
-	"quizzes/createQuiz",
+	"quizzes/create",
 	async (quizData, thunkAPI) => {
 		try {
 			const token = thunkAPI.getState().auth.user.token;
+
 			return await quizService.createQuiz(quizData, token);
 		} catch (error) {
 			const message =
@@ -51,7 +52,7 @@ export const deleteQuiz = createAsyncThunk(
 	async (id, thunkAPI) => {
 		try {
 			const token = thunkAPI.getState().auth.user.token;
-			console.log(id);
+
 			return await quizService.deleteQuiz(id, token);
 		} catch (error) {
 			const message =
@@ -97,6 +98,7 @@ export const quizSlice = createSlice({
 			.addCase(createQuiz.fulfilled, (state, action) => {
 				state.isLoading = false;
 				state.isSuccess = true;
+
 				state.quizzes.push(action.payload);
 			})
 			.addCase(createQuiz.rejected, (state, action) => {
@@ -107,7 +109,6 @@ export const quizSlice = createSlice({
 
 			.addCase(getQuizzes.pending, (state) => {
 				state.isLoading = true;
-				console.log(state.accounts);
 			})
 			.addCase(getQuizzes.fulfilled, (state, action) => {
 				state.isLoading = false;
@@ -124,7 +125,9 @@ export const quizSlice = createSlice({
 			.addCase(deleteQuiz.fulfilled, (state, action) => {
 				state.isLoading = false;
 				state.isSuccess = true;
+
 				state.quizzes = state.quizzes.filter((quiz) => {
+					console.log(action.payload, quiz._id);
 					return quiz._id !== action.payload.id;
 				});
 			})

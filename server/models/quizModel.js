@@ -6,18 +6,24 @@ const quizSchema = mongoose.Schema(
 			required: true,
 			ref: "User",
 		},
-		text: {
+		quizName: {
 			type: String,
 			required: [true, "Please add a text value"],
 		},
-		cash: {
-			type: Number,
-			default: 0,
+		// numberOfQuestions: {
+		// 	type: Number,
+		// 	default: 0,
+		// },
+		question: {
+			type: String,
+			required: [true, "Please add a text value"],
 		},
-		credit: {
-			type: Number,
-			default: 0,
-		},
+		answerList: [
+			{
+				answer: { type: String },
+				isCorrect: { type: Boolean },
+			},
+		],
 	},
 	{
 		timestamps: true,
